@@ -26,4 +26,9 @@ public class Stadiums {
         this.name = name;
         this.location = location;
     }
+
+    public void update(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
 }

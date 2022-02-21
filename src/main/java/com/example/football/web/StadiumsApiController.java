@@ -16,4 +16,10 @@ public class StadiumsApiController {
 
         return stadiumsService.save(requestDto);
     }
+
+    @PutMapping("/api/v1/stadiums/{id}")
+    public Long update(@PathVariable Long id, @RequestBody StadiumsSaveRequestDto requestDto) {
+
+        return stadiumsService.update(id, requestDto);
+    }
 }
