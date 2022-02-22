@@ -29,4 +29,11 @@ public class StadiumsApiController {
 
         return stadiumsService.findById(id);
     }
+
+    @DeleteMapping("/api/v1/stadiums/{id}")
+    public Long delete(@PathVariable Long id) {
+        stadiumsService.delete(id);
+
+        return id;
+    }
 }

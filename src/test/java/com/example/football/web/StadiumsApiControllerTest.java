@@ -136,4 +136,27 @@ class StadiumsApiControllerTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void stadiums_삭제() {
+
+        // given
+        Stadiums savedStadiums = stadiumsRepository.save(
+                Stadiums
+                        .builder()
+                        .name("에어풋살파크")
+                        .location("부산광역시 강서구 강동동 1592")
+                        .build()
+        );
+
+        Long id = savedStadiums.getId();
+
+        String url = "http://localhost:" + port + "/api/v1/stadiums/" + id;
+
+        // when
+        restTemplate.delete(url);
+
+        // then
+        assertThat(stadiumsRepository.findById(id)).isEmpty();
+    }
 }

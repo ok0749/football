@@ -39,4 +39,12 @@ public class StadiumsService {
 
         return new StadiumsResponseDto(entity);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Stadiums stadiums = stadiumsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 경기장이 없습니다. id=" + id));
+
+        stadiumsRepository.delete(stadiums);
+    }
 }
