@@ -1,7 +1,10 @@
 package com.example.football.web.dto;
 
 import com.example.football.domain.stadiums.Stadiums;
+import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class StadiumsResponseDto {
     private Long id;
     private String name;

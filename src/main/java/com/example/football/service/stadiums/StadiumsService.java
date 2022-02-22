@@ -30,4 +30,13 @@ public class StadiumsService {
 
         return id;
     }
+
+    @Transactional
+    public StadiumsResponseDto findById(Long id) {
+
+        Stadiums entity = stadiumsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 경기장이 없습니다. id=" + id));
+
+        return new StadiumsResponseDto(entity);
+    }
 }

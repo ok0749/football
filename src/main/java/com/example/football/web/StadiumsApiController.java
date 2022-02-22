@@ -1,6 +1,7 @@
 package com.example.football.web;
 
 import com.example.football.service.stadiums.StadiumsService;
+import com.example.football.web.dto.StadiumsResponseDto;
 import com.example.football.web.dto.StadiumsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,11 @@ public class StadiumsApiController {
     public Long update(@PathVariable Long id, @RequestBody StadiumsSaveRequestDto requestDto) {
 
         return stadiumsService.update(id, requestDto);
+    }
+
+    @GetMapping("/api/v1/stadiums/{id}")
+    public StadiumsResponseDto findById(@PathVariable Long id) {
+
+        return stadiumsService.findById(id);
     }
 }
