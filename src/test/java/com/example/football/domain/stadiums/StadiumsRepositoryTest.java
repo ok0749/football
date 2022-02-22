@@ -4,8 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,5 +40,28 @@ public class StadiumsRepositoryTest {
         Stadiums stadiums = stadiumsList.get(0);
         assertThat(stadiums.getName()).isEqualTo(name);
         assertThat(stadiums.getLocation()).isEqualTo(location);
+    }
+
+    @Test
+    public void BaseTimeEntity_등록() {
+        // given
+        LocalDateTime now = LocalDateTime.of(2022,2,22,10,18,50);
+        stadiumsRepository.save(Stadiums
+                .builder()
+                .name("에어풋살파크")
+                .location("부산광역시 강서구 강동동 1592")
+                .build());
+
+        // when
+        List<Stadiums> all = stadiumsRepository.findAll();
+
+        // then
+        Stadiums stadiums = all.get(0);
+
+        System.out.println(">>>>> createdDate= " + stadiums.getCreatedDate()
+                + ", modifiedDate= " + stadiums.getModifiedDate());
+
+        assertThat(stadiums.getCreatedDate()).isAfter(now);
+        assertThat(stadiums.getModifiedDate()).isAfter(now);
     }
 }
