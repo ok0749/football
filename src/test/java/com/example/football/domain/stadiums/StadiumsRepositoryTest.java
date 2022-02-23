@@ -64,4 +64,30 @@ public class StadiumsRepositoryTest {
         assertThat(stadiums.getCreatedDate()).isAfter(now);
         assertThat(stadiums.getModifiedDate()).isAfter(now);
     }
+
+    @Test
+    public void stadiums_전체내림차순조회() {
+        // given
+        stadiumsRepository.save(Stadiums
+                .builder()
+                .name("에어풋살파크1")
+                .location("부산광역시 강서구 강동동 1592")
+                .build());
+
+        stadiumsRepository.save(Stadiums
+                .builder()
+                .name("에어풋살파크2")
+                .location("부산광역시 강서구 강동동 1592")
+                .build());
+
+        // when
+        List<Stadiums> all = stadiumsRepository.findAllDesc();
+
+        // then
+        assertThat(all.size()).isEqualTo(2L);
+        assertThat(all.get(0).getName()).isEqualTo("에어풋살파크2");
+        assertThat(all.get(0).getLocation()).isEqualTo("부산광역시 강서구 강동동 1592");
+        assertThat(all.get(1).getName()).isEqualTo("에어풋살파크1");
+        assertThat(all.get(1).getLocation()).isEqualTo("부산광역시 강서구 강동동 1592");
+    }
 }

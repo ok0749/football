@@ -2,6 +2,7 @@ package com.example.football.web;
 
 import com.example.football.domain.stadiums.Stadiums;
 import com.example.football.domain.stadiums.StadiumsRepository;
+import com.example.football.web.dto.StadiumsListResponseDto;
 import com.example.football.web.dto.StadiumsResponseDto;
 import com.example.football.web.dto.StadiumsSaveRequestDto;
 import com.example.football.web.dto.StadiumsUpdateRequestDto;
@@ -17,10 +18,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -158,5 +156,42 @@ class StadiumsApiControllerTest {
 
         // then
         assertThat(stadiumsRepository.findById(id)).isEmpty();
+    }
+
+    @Test
+    public void stadiums_전체내림차순조회() {
+        // given
+        stadiumsRepository.save(
+                Stadiums
+                        .builder()
+                        .name("에어풋살파크1")
+                        .location("부산광역시 강서구 강동동 1592")
+                        .build()
+        );
+
+        stadiumsRepository.save(
+                Stadiums
+                        .builder()
+                        .name("에어풋살파크2")
+                        .location("부산광역시 강서구 강동동 1592")
+                        .build()
+        );
+
+        String url = "http://localhost:" + port + "/api/v1/stadiums";
+
+        // when
+        ResponseEntity<Map> response = restTemplate.getForEntity(
+                url,
+                Map.class
+        );
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        List<Map> stadiumsList = (ArrayList) response.getBody().get("stadiums");
+
+        assertThat(stadiumsList.get(0).get("name")).isEqualTo("에어풋살파크2");
+        assertThat(stadiumsList.get(0).get("location")).isEqualTo("부산광역시 강서구 강동동 1592");
+        assertThat(stadiumsList.get(1).get("name")).isEqualTo("에어풋살파크1");
+        assertThat(stadiumsList.get(1).get("location")).isEqualTo("부산광역시 강서구 강동동 1592");
     }
 }
