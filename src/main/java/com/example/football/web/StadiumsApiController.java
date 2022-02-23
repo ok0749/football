@@ -12,6 +12,7 @@ public class StadiumsApiController {
 
     private final StadiumsService stadiumsService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/api/v1/stadiums")
     public Long save(@RequestBody StadiumsSaveRequestDto requestDto) {
 
